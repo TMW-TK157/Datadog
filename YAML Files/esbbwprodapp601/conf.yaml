@@ -1,0 +1,36 @@
+logs:
+  - type: file
+    path: /opt/tibco/product/bw/6.5/domains/*/appnodes/*/*/log/bwappnode*.log
+    service: tibco_bw
+    source: java
+    sourcecategory: bw6/appnodelog
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start
+        pattern: "^\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.*"
+      - type: exclude_at_match
+        name: drop_tibco_debug_trace_loglevel_field
+        pattern: '"loglevel"\s*:\s*"(DEBUG|DEGUB|TRACE)"'
+      - type: exclude_at_match
+        name: drop_transaction_handshake_ok
+        pattern: 'Status:\s*OK\b|TransactionStatus=OK\b|"status"\s*:\s*"(OK|COMPLETED)"'
+    tags:
+      - log_type:app
+
+  - type: file
+    path: "/opt/tibco/logs/*/*.log"
+    service: tibco_bw
+    source: java
+    sourcecategory: tibco/prod/bw6
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start
+        pattern: "^\\d{4}-\\d{2}-\\d{2}"
+      - type: exclude_at_match
+        name: drop_tibco_debug_trace_loglevel_field
+        pattern: '"loglevel"\s*:\s*"(DEBUG|DEGUB|TRACE)"'
+      - type: exclude_at_match
+        name: drop_transaction_handshake_ok
+        pattern: 'Status:\s*OK\b|TransactionStatus=OK\b|"status"\s*:\s*"(OK|COMPLETED)"'
+    tags:
+      - log_type:app
