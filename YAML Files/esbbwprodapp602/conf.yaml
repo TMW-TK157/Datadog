@@ -1,0 +1,26 @@
+# /etc/datadog-agent/conf.d/tibco_bw.d/conf.yaml
+
+logs:
+  - type: file
+    path: /opt/tibco/product/bw/6.5/domains/*/appnodes/*/*/log/bwappnode*.log
+    service: tibco_bw
+    source: java
+    sourcecategory: bw6/appnodelog
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start
+        pattern: "^\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.*"
+    tags:
+      - log_type:app
+
+  - type: file
+    path: "/opt/tibco/logs/*/*.log"
+    service: tibco_bw
+    source: java
+    sourcecategory: tibco/test/bw6
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start
+        pattern: "^\\d{4}-\\d{2}-\\d{2}"
+    tags:
+      - log_type:app
