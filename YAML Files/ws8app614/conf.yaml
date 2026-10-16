@@ -1,0 +1,14 @@
+[root@ws8app614 ~]# cat /etc/datadog-agent/conf.d/websphere_app.d/conf.yaml
+logs:
+  - type: file
+    path: /usr/opt/app/IBM/WebSphere/AppServer/profiles/prod01/logs/wc_*clone*/SystemOut.log
+    service: websphere
+    source: java
+    sourcecategory: prod/app/sysout
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start_with_date
+        pattern: \[\d{1,2}/\d{1,2}/\d{2,4}
+    tags:
+      - log_type:sysout
+[root@ws8app614 ~]#
