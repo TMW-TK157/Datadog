@@ -1,0 +1,34 @@
+#[root@ws8web605 ~]# cat /etc/datadog-agent/conf.d/websphere_web.d/conf.yaml
+
+logs:
+  - type: file
+    path: /usr/opt/app/IBM/WebSphere/CommerceServer80/instances/prod01/httplogs/jab_access.*
+    service: websphere
+    source: apache
+    sourcecategory: ecom/web/jab/access
+    tags:
+      - log_type:access
+
+  - type: file
+    path: /usr/opt/app/IBM/WebSphere/CommerceServer80/instances/prod01/httplogs/jab_error.*
+    service: websphere
+    source: apache
+    sourcecategory: ecom/web/jab/error
+    tags:
+      - log_type:error
+
+  - type: file
+    path: /usr/opt/app/IBM/WebSphere/CommerceServer80/instances/prod01/httplogs/mw_access.*
+    service: websphere
+    source: apache
+    sourcecategory: ecom/web/mw/access
+    tags:
+      - log_type:access
+
+  - type: file
+    path: /usr/opt/app/IBM/WebSphere/CommerceServer80/instances/prod01/httplogs/mw_error.*
+    service: websphere
+    source: apache
+    sourcecategory: ecom/web/mw/error
+    tags:
+      - log_type:error
